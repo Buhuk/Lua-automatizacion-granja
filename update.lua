@@ -15,7 +15,8 @@ local archivos = {
 print("Actualizando proyecto desde GitHub...")
 
 for _, nombreItem in ipairs(archivos) do
-    local url = string.format("https://raw.githubusercontent.com/%s/%s/%s/%s", usuario, repo, rama, nombreItem)
+    --local url = string.format("https://raw.githubusercontent.com/%s/%s/%s/%s", usuario, repo, rama, nombreItem)
+    local url = string.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", usuario, repo, rama, nombreItem)
     
     -- Si el archivo ya existe en el juego, lo borramos para actualizarlo
     if fs.exists(nombreItem) then
