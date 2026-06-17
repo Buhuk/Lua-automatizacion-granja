@@ -1,13 +1,13 @@
 -- Contenido de update.lua
 local usuario = "Buhuk"
-local repo = "lua-automatizacion-granja"
+local repo = "Lua-automatizacion-granja"
 local rama = "main"
 
 -- Lista de todos los archivos de tu proyecto modular
 local archivos = {
     "main.lua",
     "config.lua",
-    "Roost.lua",
+    "Nido.lua",
     "interfaz.lua",
     "calibracion.lua"
 }
