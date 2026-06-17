@@ -18,7 +18,7 @@ local download_links = {}
 local misCabeceras = {
     --["Authorization"] = "Bearer tu_token_secreto_aqui",
     --["User-Agent"] = "ComputerCraft-Computer-" .. os.computerID(),
-    ["Accept"] = "application/vnd.github.raw+json" -- Útil para la API de GitHub
+    ["Accept"] = "application/vnd.github+json" -- Útil para la API de GitHub
 }
 
 print("Actualizando proyecto desde GitHub...")
