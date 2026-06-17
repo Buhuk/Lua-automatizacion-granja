@@ -42,10 +42,10 @@ for _, nombreItem in ipairs(archivos) do
     local respuesta = http.get(opciones)
     
     if respuesta then
-        respuesta = textutils.unserializeJSON(respuesta.readAll())
+        respuestaJson = textutils.unserializeJSON(respuesta.readAll())
         respuesta.close()
-        
-        file_response = http.get(respuesta.download_url)
+
+        file_response = http.get(respuestaJson.download_url)
         if file_response then
             local contenido = file_response.readAll()
             file_response.close()
