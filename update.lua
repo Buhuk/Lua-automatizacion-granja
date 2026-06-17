@@ -23,16 +23,17 @@ print("Actualizando proyecto desde GitHub...")
 
 for _, nombreItem in ipairs(archivos) do
     --local url = string.format("https://raw.githubusercontent.com/%s/%s/%s/%s", usuario, repo, rama, nombreItem)
-    local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", usuario, repo, nombreItem)
-    
+    local link_data = string.format("https://api.github.com/repos/%s/%s/contents/%s", usuario, repo, nombreItem)
+    local path = fs.combine(shell.dir(), nombreItem)
+
     -- Si el archivo ya existe en el juego, lo borramos para actualizarlo
-    if fs.exists(nombreItem) then
-        fs.delete(nombreItem)
+    if fs.exists(path) then
+        fs.delete(path)
     end
 
     -- Creamos la estructura de opciones para la petición HTTP
     local opciones = {
-        url = url,
+        url = link_data.download_url,
         headers = misCabeceras
     }
 
@@ -41,7 +42,7 @@ for _, nombreItem in ipairs(archivos) do
         local contenido = respuesta.readAll()
         respuesta.close()
         
-        local file = fs.open(nombreItem, "w")
+        local file = fs.open(path, "w")
         file.write(contenido)
         file.close()
 
