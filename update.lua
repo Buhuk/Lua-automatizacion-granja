@@ -12,6 +12,8 @@ local archivos = {
     "calibracion.lua"
 }
 
+local download_links = {}
+
 -- Definimos las cabeceras personalizadas que tú quieras
 local misCabeceras = {
     --["Authorization"] = "Bearer tu_token_secreto_aqui",
@@ -23,7 +25,7 @@ print("Actualizando proyecto desde GitHub...")
 
 for _, nombreItem in ipairs(archivos) do
     --local url = string.format("https://raw.githubusercontent.com/%s/%s/%s/%s", usuario, repo, rama, nombreItem)
-    local link_data = string.format("https://api.github.com/repos/%s/%s/contents/%s", usuario, repo, nombreItem)
+    local api_url = string.format("https://api.github.com/repos/%s/%s/contents/%s", usuario, repo, nombreItem)
     local path = fs.combine(shell.dir(), nombreItem)
 
     -- Si el archivo ya existe en el juego, lo borramos para actualizarlo
@@ -33,20 +35,29 @@ for _, nombreItem in ipairs(archivos) do
 
     -- Creamos la estructura de opciones para la petición HTTP
     local opciones = {
-        url = link_data.download_url,
+        url = api_url,
         headers = misCabeceras
     }
 
     local respuesta = http.get(opciones)
+    
     if respuesta then
-        local contenido = respuesta.readAll()
+        respuesta = textutils.unserializeJSON(respuesta.readAll())
         respuesta.close()
         
-        local file = fs.open(path, "w")
-        file.write(contenido)
-        file.close()
+        file_response = http.get(respuesta.download_url)
+        if file_response then
+            local contenido = file_response.readAll()
+            file_response.close()
 
-        print("- ".. nombreItem)
+            local file = fs.open(path, "w")
+            file.write(contenido)
+            file.close()
+            print("- ".. nombreItem)
+        end
+
+        
+
     else
         print("Error al descargar " .. nombreItem)
     end
